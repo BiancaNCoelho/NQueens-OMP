@@ -1,17 +1,20 @@
 // Problema das N Rainhas
-// 0 --> espaço vazio | 1 ---> queen
+// . --> espaço vazio | Q ---> queen
 // Bianca Nunes Coelho
 
 #include <string.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include <stdbool.h>
+#include <time.h>
 #include <pthread.h>
 #include <omp.h>
 
 void show_board();
-void show_valid_solution();
 void check_queen();
 void put_queen();
+
+int solutions = 0;
 
 // Main
 int main(int args, char *argv[]){
@@ -24,6 +27,10 @@ int main(int args, char *argv[]){
 	
 	queens = atoi(argv[1]);
 	threads = atoi(argv[2]);
+	
+	int nMaxProc = omp_get_max_threads(); 
+	
+	omp_set_num_threads(threads);
 	
 	int **mat;
 	int i,j;
@@ -49,14 +56,25 @@ int main(int args, char *argv[]){
 	return 0;
 }
 
-voiod show_board(){
+/*
+void put_queen(){
+	if(target == queens){
+		show_board();
+		solutions++;
+	}else{
+	
+	}
+}
+
+void show_board(){
 	int i,j;
 	for (i = 0; i < queens; i++){
 		for (j = 0; j < queens; j++){
-			
+			//TO DO		
 		}
 		printf("\n");
 	}
 	printf("\n");
 
 }
+*/
