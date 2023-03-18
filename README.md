@@ -1,5 +1,5 @@
 # NQueens-OMP
-N Queens puzzle solved in C implementation with OpenMP.
+N Queens puzzle implemented in C with OpenMP.
 
 ## Compile and Run
 To compile:
