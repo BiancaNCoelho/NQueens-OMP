@@ -10,3 +10,4 @@ To run:
 
 ## Contributor(s)
 Bianca Nunes Coelho - Computer engeneering student at Universidade Federal de Pelotas(UFPEL)
+Alejandro Alberoni - Computer science student at Universidade Federal de Pelotas(UFPEL)
