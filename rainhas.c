@@ -1,6 +1,5 @@
 // Problema das N Rainhas com OpenMP
 // 0 --> empty space | 1 ---> queen
-// Bianca Nunes Coelho
 // Introdução ao Processamento Paralelo e Distribuido (IPPD)
 
 #include <string.h>
@@ -12,11 +11,10 @@
 #include <omp.h>
 
 void show_board(int **mat, int queens);
-bool check_queen(int **mat, int queens, int position);
+bool check_queen(int **mat, int queens, int row, int column);
 void put_queen(int **mat, int queens, int position);
 
-int solutions = 0;
-int posistion = 0;
+int solutions = 0; // number of solutions to the problem
 	
 // Main
 int main(int args, char *argv[]){
@@ -48,37 +46,39 @@ int main(int args, char *argv[]){
 	// SOLUTION IS SIMPLE: N = 1
 	if(queens == 1 ){
 		solutions++;
-		printf("Solutions = %d.", solutions);
+		mat[0][0] = 1;
 		show_board(mat,queens);
 	}
 	
 	// DOES NOT EXIST A SOLUTION FOR N = 2 AND N = 3
 	if(queens == 2 || queens == 3){
 		solutions = 0;
-		printf("Solutions = %d", solutions);
 		show_board(mat,queens);
 	}
 	
 	// CASE N > 3, CACULATE THE NUMBER OF SOLUTIONS POSSIBLE AND PRINT BOARD
 	if(queens > 3){
-	
-	
+		put_queen(mat,queens,0);
 	}
-
+	printf("Solutions: %d\n", solutions);
 	return 0;
 }
 
-void put_queen(int **mat, int queens, int position){
+// Put a queen in the board
+void put_queen(int **mat, int queens, int positioned){
 	int i,j;
-	if (position == 8){
+	if (positioned == queens){
 		show_board(mat, queens);
 		solutions++;
 	}else{
 		for(i = 0; i < queens; i++){
 			for(j = 0; j < queens; j++){
-				if (check_queen(mat, queens, position)){
+				if (check_queen(mat, queens,i,j)){
 					mat[i][j] = 1;
-					put_queen(mat, queens, position+1);
+					put_queen(mat, queens,positioned+1);
+				}else{
+					mat[i][j] = 0;
+					put_queen(mat, queens, positioned);
 				}
 			}
 		}
@@ -86,36 +86,20 @@ void put_queen(int **mat, int queens, int position){
 }
 
 // Checks if there is a queen in the diagonal or in the same row or column
-bool check_queen(int **mat, int queens, int position){
-	int i,j,k,m;
-	j = 7;
-	m = 7;
+bool check_queen(int **mat, int queens, int row, int column){
+	int i,j;
+	int temp[queens][queens];
+	temp[row][column] = 1;
+	
 	for(i = 0; i < queens; i++){
-		while (j != 0){
-			if (mat[i][j] == mat[i][j-1]){
-				return false;
-			} 	
-			j--;
-		}
-	
+		if()
 	}
-	
-	while (m != 0){
-		for (k = 0; k < queens; k++){
-			if(mat[m][k] == mat[m+1][j]){
-				return false;
-			}
-		}	
-		
-		m--;
-	}
-	
 	
 	return true;
 
 }
 
-// Show board solution
+// Show board of one solution
 void show_board(int **mat , int queens){
 	int i,j;
 	for (i = 0; i < queens; i++){
