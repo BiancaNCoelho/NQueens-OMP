@@ -8,14 +8,17 @@
 #include <stdbool.h>
 #include <time.h>
 #include <pthread.h>
-#include <omp.h>
+
+#ifdef _OPENMP
+#include<omp.h> 
+#endif
 
 void show_board(int **mat, int queens);
 bool check_queen(int **mat, int queens, int row, int column);
 void put_queen(int **mat, int queens, int position);
 
 int solutions = 0; // number of solutions to the problem
-	
+
 // Main
 int main(int args, char *argv[]){
 	
@@ -29,9 +32,9 @@ int main(int args, char *argv[]){
 	
 	queens = atoi(argv[1]);
 	threads = atoi(argv[2]);
-	int nMaxProc = omp_get_max_threads();
 	omp_set_num_threads(threads);
 	
+	// Criates the board for the problem
 	mat = malloc(queens * sizeof(int*));
 	for (i=0;i < queens;i++){
 		mat[i] = malloc(queens * sizeof(int));
@@ -42,8 +45,11 @@ int main(int args, char *argv[]){
 			mat[i][j] = 0 ;
 		}
 	}
-	
-	// SOLUTION IS SIMPLE: N = 1
+	printf("--------------------------------------------\n");
+    printf("Solving N-Queen\n");
+    printf("--------------------------------------------\n");
+
+	// SOLUTION IS SIMPLE FOR N = 1
 	if(queens == 1 ){
 		solutions++;
 		mat[0][0] = 1;
@@ -60,41 +66,61 @@ int main(int args, char *argv[]){
 	if(queens > 3){
 		put_queen(mat,queens,0);
 	}
+	
+	printf("--------------------------------------------\n");
+    printf("Solved!\n");
 	printf("Solutions: %d\n", solutions);
+	printf("Queens : %d\n", queens);
+	printf("Board size: %d\n", queens*queens);
+	printf("Number of threads: %d\n", threads);
+	printf("Time(in seconds): To be done at a later date\n");
 	return 0;
 }
 
 // Put a queen in the board
 void put_queen(int **mat, int queens, int positioned){
 	int i,j;
+
 	if (positioned == queens){
 		show_board(mat, queens);
 		solutions++;
-	}else{
-		for(i = 0; i < queens; i++){
-			for(j = 0; j < queens; j++){
-				if (check_queen(mat, queens,i,j)){
-					mat[i][j] = 1;
-					put_queen(mat, queens,positioned+1);
-				}else{
-					mat[i][j] = 0;
-					put_queen(mat, queens, positioned);
-				}
-			}
-		}
+		return;
+	}
+
+	for(i = 0; i < queens; i++){
+		if (check_queen(mat, queens,positioned,i)){
+			mat[positioned][i] = 1;
+			put_queen(mat, queens,positioned+1);
+			mat[positioned][i] = 0;
+		}	
 	}
 }
 
 // Checks if there is a queen in the diagonal or in the same row or column
-bool check_queen(int **mat, int queens, int row, int column){
+bool check_queen(int **mat, int queens, int pos, int column){
 	int i,j;
-	int temp[queens][queens];
-	temp[row][column] = 1;
-	
-	for(i = 0; i < queens; i++){
-		if()
+
+	// column -
+	for(i = 0; i < pos; i++){
+		if(mat[i][column] == 1){
+			return false;
+		}
+	}
+
+	// '\'
+	for(int i = pos, j = column; i >= 0 && j >= 0; i--,j--){
+		if(mat[i][j] == 1){
+			return false;
+		}
 	}
 	
+	// '/'
+	for(int i = pos, j = column; i >= 0 && j < queens; i--,j++){
+		if(mat[i][j] == 1){
+			return false;
+		}
+	}
+
 	return true;
 
 }
