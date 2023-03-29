@@ -34,7 +34,7 @@ int main(int args, char *argv[]){
 	threads = atoi(argv[2]);
 	omp_set_num_threads(threads);
 	
-	// Criates the board for the problem
+	// Creates the board for the problem
 	mat = malloc(queens * sizeof(int*));
 	for (i=0;i < queens;i++){
 		mat[i] = malloc(queens * sizeof(int));
@@ -46,8 +46,8 @@ int main(int args, char *argv[]){
 		}
 	}
 	printf("--------------------------------------------\n");
-    printf("Solving N-Queen\n");
-    printf("--------------------------------------------\n");
+    	printf("Solving N-Queen\n");
+    	printf("--------------------------------------------\n");
 
 	// SOLUTION IS SIMPLE FOR N = 1
 	if(queens == 1 ){
@@ -68,7 +68,7 @@ int main(int args, char *argv[]){
 	}
 	
 	printf("--------------------------------------------\n");
-    printf("Solved!\n");
+    	printf("Solved!\n");
 	printf("Solutions: %d\n", solutions);
 	printf("Queens : %d\n", queens);
 	printf("Board size: %d\n", queens*queens);
