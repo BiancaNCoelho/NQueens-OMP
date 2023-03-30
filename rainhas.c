@@ -10,7 +10,7 @@
 #include <pthread.h>
 
 #ifdef _OPENMP
-#include<omp.h> 
+	#include <omp.h> 
 #endif
 
 void show_board(int **mat, int queens);
@@ -32,8 +32,9 @@ int main(int args, char *argv[]){
 	
 	queens = atoi(argv[1]);
 	threads = atoi(argv[2]);
+#ifdef _OPENMP
 	omp_set_num_threads(threads);
-	
+#endif	
 	// Creates the board for the problem
 	mat = malloc(queens * sizeof(int*));
 	for (i=0;i < queens;i++){
@@ -72,7 +73,11 @@ int main(int args, char *argv[]){
 	printf("Solutions: %d\n", solutions);
 	printf("Queens : %d\n", queens);
 	printf("Board size: %d\n", queens*queens);
+#ifdef _OPENMP
 	printf("Number of threads: %d\n", threads);
+#else
+	printf("NUmber of threads: %d\n", 0);
+#endif
 	printf("Time(in seconds): To be done at a later date\n");
 	return 0;
 }
