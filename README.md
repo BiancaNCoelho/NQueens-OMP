@@ -6,6 +6,13 @@ The N queens puzzle is the problem of placing N queens in a N X N chess board su
 
 ## Compile and Run
 To compile:
+
+sequential:
+
+gcc -o rainhas rainhas.c
+
+parallel OpenMP:
+
 gcc -o rainhas -fopenmp rainhas.c
 
 To run:
