@@ -29,6 +29,8 @@ int main(int args, char *argv[]){
 	int queens, threads;
 	int **mat;
 	int i,j;
+	double time;
+	clock_t t;
 	
 	queens = atoi(argv[1]);
 	threads = atoi(argv[2]);
@@ -49,7 +51,8 @@ int main(int args, char *argv[]){
 	printf("--------------------------------------------\n");
     	printf("Solving N-Queen\n");
     	printf("--------------------------------------------\n");
-
+	
+	t = clock();
 	// SOLUTION IS SIMPLE FOR N = 1
 	if(queens == 1 ){
 		solutions++;
@@ -68,6 +71,9 @@ int main(int args, char *argv[]){
 		put_queen(mat,queens,0);
 	}
 	
+	t = clock() - t;
+	time = ((double)t)/CLOCKS_PER_SEC;
+	
 	printf("--------------------------------------------\n");
     	printf("Solved!\n");
 	printf("Solutions: %d\n", solutions);
@@ -76,9 +82,9 @@ int main(int args, char *argv[]){
 #ifdef _OPENMP
 	printf("Number of threads: %d\n", threads);
 #else
-	printf("NUmber of threads: %d\n", 0);
+	printf("Number of threads: %d\n", 0);
 #endif
-	printf("Time(in seconds): To be done at a later date\n");
+	printf("Time(in seconds): %f\n", time);
 	return 0;
 }
 
