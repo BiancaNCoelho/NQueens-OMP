@@ -1,6 +1,7 @@
 // Problema das N Rainhas com OpenMP
 // 0 --> empty space | 1 ---> queen
 // Introdução ao Processamento Paralelo e Distribuido (IPPD)
+// Patrcik Rosa, Alejandro Alberoni, Bianca Coelho
 
 #include <string.h>
 #include <stdio.h>
@@ -110,7 +111,7 @@ void put_queen(int **mat, int queens, int positioned){
 	for(i = 0; i < queens; i++){	
 		if (check_queen(mat, queens,positioned,i)){
 			mat[positioned][i] = 1;
-			#pragma omp task firstprivate(positioned) if(positioned >= (queens/2))
+			#pragma omp task firstprivate(positioned) if(positioned <= (queens/2))
 			{
 				put_queen(mat, queens, positioned+1);
 			}
