@@ -57,13 +57,13 @@ int main(int args, char *argv[]){
 	if(queens == 1 ){
 		solutions++;
 		mat[0][0] = 1;
-		show_board(mat,queens);
+		//show_board(mat,queens);
 	}
 	
 	// DOES NOT EXIST A SOLUTION FOR N = 2 AND N = 3
 	if(queens == 2 || queens == 3){
 		solutions = 0;
-		show_board(mat,queens);
+		//show_board(mat,queens);
 	}
 	
 	// CASE N > 3, CACULATE THE NUMBER OF SOLUTIONS POSSIBLE AND PRINT BOARD
@@ -73,10 +73,7 @@ int main(int args, char *argv[]){
 {
 	#pragma omp single
 	{
-		#pragma omp taskgroup
-		{
-			put_queen(mat,queens,0);
-		}
+		put_queen(mat,queens,0);
 	}
 }
 	}
@@ -103,24 +100,23 @@ int main(int args, char *argv[]){
 void put_queen(int **mat, int queens, int positioned){
 	int i,j;
 	if (positioned == queens){
-		show_board(mat, queens);
+		//show_board(mat, queens);
 		#pragma omp critical
 		{
-			solutions++;
+			++solutions;
 		}
 		return;
 	} 
 	for(i = 0; i < queens; i++){	
 		if (check_queen(mat, queens,positioned,i)){
 			mat[positioned][i] = 1;
-			#pragma task firstprivate(positioned)
+			#pragma omp task firstprivate(positioned) if(positioned >= (queens/2))
 			{
-				put_queen(mat, queens,positioned+1);
+				put_queen(mat, queens, positioned+1);
 			}
+			#pragma omp taskwait
 			mat[positioned][i] = 0;
-		//printf("T: %d\n", omp_get_thread_num());
 		}
-		#pragma omp taskwait
 	}
 }
 
@@ -153,6 +149,7 @@ bool check_queen(int **mat, int queens, int pos, int column){
 
 }
 
+/*
 // Show board of one solution
 void show_board(int **mat , int queens){
 	int i,j;
@@ -164,3 +161,4 @@ void show_board(int **mat , int queens){
 	}
 	printf("\n");
 }
+*/

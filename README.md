@@ -13,10 +13,12 @@ gcc -o rainhas rainhas.c
 
 parallel-OpenMP:
 
-gcc -o rainhas -fopenmp rainhas.c
+gcc -o rainhas -fopenmp rainhas.c -lpthread
 
 To run:
 ./rainhas numberOfQueens numberOfThreads
+
+if numberofThreads = 0 -> sequential
 
 ## Contributor(s)
 Bianca Nunes Coelho - Computer engeneering student at Universidade Federal de Pelotas(UFPEL)
