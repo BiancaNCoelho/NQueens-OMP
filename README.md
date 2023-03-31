@@ -11,7 +11,7 @@ sequential:
 
 gcc -o rainhas rainhas.c
 
-parallel OpenMP:
+parallel-OpenMP:
 
 gcc -o rainhas -fopenmp rainhas.c
 
